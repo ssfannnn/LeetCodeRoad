@@ -48,4 +48,30 @@ public class Solution {
         return res;
     }
 
+
+
+    /**因为这里需要合并区间 因此我们需要一个集合来维护已经合并完的区间
+     * 首先对整个二维数组根据第一个元素的大小进行排序
+     * 分两种情况:
+     *      1.如果deque的最后一个元素的第二个元素小于当前遍历到的元素的第一个值 说明此时没有重合的区间因此直接将当前便利到的值添加进deque中
+     *      2.否则 说明有重叠的区间 此时需要比较两个数组的元素排进行合并  左边界一定是从deque中取出的值 因为数组在一开始就排序了  右边界则是deque的最后一个数组与当前遍历到的数组的index为1的值的较大者
+     *
+     *      根据两种情况分别添加进deque中即可
+     * */
+    public int[][] merge2(int[][] intervals) {
+        Arrays.sort(intervals, (o1, o2) -> o1[0]-o2[0]);
+        Deque<int[]> deque = new ArrayDeque<>();
+        deque.add(intervals[0]);
+        for (int[] interval : intervals) {
+            if(interval[0] > deque.getLast()[1]){
+                deque.add(interval);
+            }else if(interval[0]<=deque.getLast()[1]){
+                int[] poll = deque.pollLast();
+                int right = Math.max(interval[1],poll[1]);
+                deque.add(new int[]{poll[0],right});
+            }
+        }
+        return deque.toArray(new int[0][]);
+    }
+
 }
