@@ -10,8 +10,6 @@ package com.fannnnn.leetcode.question1037;
  */
 
 public class Solution {
-
-
     /**
      * 判断两条直线的斜率是否相等
      * */
